@@ -8,4 +8,6 @@ public interface RegistrationService {
 
 	public Object getAll();
 
+	void executeLogin(String userName, String passWord);
+
 }

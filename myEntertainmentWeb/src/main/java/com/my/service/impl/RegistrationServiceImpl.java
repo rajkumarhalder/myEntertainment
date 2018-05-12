@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.my.dao.SequenceDao;
-import com.my.model.Member;
+import com.my.model.MemberDetails;
 import com.my.repository.RegistrationRepository;
 import com.my.service.RegistrationService;
 
@@ -20,11 +20,12 @@ public class RegistrationServiceImpl implements RegistrationService{
 
 	@Override
 	public Object memberRegistration(Object object) {
-		Member member=null;
-		if(object instanceof Member)
-			member=(Member) object;
+		MemberDetails member=null;
+		if(object instanceof MemberDetails)
+			member=(MemberDetails) object;
 		
-		member.setMemberId(sequenceDao.getNextSequenceId("members"));
+		//member.setMemberId(sequenceDao.getNextSequenceId("members"));
+		member.setMemberId(1000L);
 		
 		registrationRepository.save(member);
 		
@@ -35,6 +36,18 @@ public class RegistrationServiceImpl implements RegistrationService{
 	public Object getAll() {
 		
 		return registrationRepository.findAll();
+	}
+	
+	@Override
+	public void executeLogin(String userName,String passWord) {
+		
+		
+		try {
+			MemberDetails memberDetails=registrationRepository.findByUserNamePassword(userName, passWord);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

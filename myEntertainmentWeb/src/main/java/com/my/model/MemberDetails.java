@@ -18,7 +18,7 @@ public class MemberDetails implements Serializable{
 	@Id
 	private Long memberId;
 	private String name;
-	private String domainName;
+	private String password;
 	private String emailId;
 	private String mobileNumber;
 	private String deskPhoneNumber;
@@ -38,11 +38,12 @@ public class MemberDetails implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDomainName() {
-		return domainName;
+	
+	public String getPassword() {
+		return password;
 	}
-	public void setDomainName(String domainName) {
-		this.domainName = domainName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getEmailId() {
 		return emailId;

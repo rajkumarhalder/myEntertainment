@@ -9,8 +9,11 @@ import com.my.model.MemberDetails;
 @Repository
 public interface RegistrationRepository extends MongoRepository<MemberDetails, Long>{
 
-	@Query("{ 'userName' : ?0 ,'passWord' :?1}")
+	@Query("{ 'emailId' : ?0 ,'password' :?1}")
 	public MemberDetails findByUserNamePassword(String userName,String passWord);
+	
+	@Query("{ '_id' : ?0}")
+	public MemberDetails findMemberByMemberId(Long memberId);
 
 
 }

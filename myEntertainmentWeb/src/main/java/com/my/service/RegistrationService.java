@@ -1,6 +1,6 @@
 package com.my.service;
 
-
+import com.my.model.MemberDetails;
 
 public interface RegistrationService {
 	
@@ -8,6 +8,8 @@ public interface RegistrationService {
 
 	public Object getAll();
 
-	void executeLogin(String userName, String passWord);
+	MemberDetails executeLogin(String userName, String passWord);
+
+	MemberDetails getMemberByMemberId(Long memberId);
 
 }

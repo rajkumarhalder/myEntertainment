@@ -21,7 +21,7 @@ public class SequenceDaoImpl implements SequenceDao{
 	@Override
 	public long getNextSequenceId(String key) {
 		//get sequence id
-		Query query = new Query(Criteria.where("id").is(key));
+		Query query = new Query(Criteria.where("_id").is(key));
 
 		//increase sequence id by 1
 		Update update = new Update();

@@ -24,8 +24,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 		if(object instanceof MemberDetails)
 			member=(MemberDetails) object;
 		
-		//member.setMemberId(sequenceDao.getNextSequenceId("members"));
-		member.setMemberId(1000L);
+		member.setMemberId(sequenceDao.getNextSequenceId("member_seq"));
+		//member.setMemberId(1000L);
 		
 		registrationRepository.save(member);
 		
@@ -39,16 +39,32 @@ public class RegistrationServiceImpl implements RegistrationService{
 	}
 	
 	@Override
-	public void executeLogin(String userName,String passWord) {
+	public MemberDetails executeLogin(String userName,String passWord) {
 		
-		
+		MemberDetails memberDetails=null;
 		try {
-			MemberDetails memberDetails=registrationRepository.findByUserNamePassword(userName, passWord);
-			
+			memberDetails=registrationRepository.findByUserNamePassword(userName, passWord);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return memberDetails;
 	}
+	
+	@Override
+	public MemberDetails getMemberByMemberId(Long memberId) {
+		
+		MemberDetails memberDetails=null;
+		try {
+			memberDetails=registrationRepository.findMemberByMemberId(memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memberDetails;
+	}
+	
+	
+	
 	
 	
 

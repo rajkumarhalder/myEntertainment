@@ -8,7 +8,9 @@ public class SequenceId {
 	
 	@Id
 	private String id;
+	
 	private Long sequence;
+	
 	public String getId() {
 		return id;
 	}

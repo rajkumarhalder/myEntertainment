@@ -2,9 +2,12 @@ package com.my.model;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.my.util.EntertainmentConstant;
 
 @Document(collection="member")
 public class MemberDetails implements Serializable{
@@ -17,12 +20,13 @@ public class MemberDetails implements Serializable{
 	
 	@Id
 	private Long memberId;
+	private Integer roleId=EntertainmentConstant.ROLE_ID_USER;
 	private String name;
 	private String password;
 	private String emailId;
 	private String mobileNumber;
 	private String deskPhoneNumber;
-	private String dateOfBirth;
+	private Date dateOfBirth;
 	private String userName;
 	private String passWord;
 	public Long getMemberId() {
@@ -63,10 +67,11 @@ public class MemberDetails implements Serializable{
 	public void setDeskPhoneNumber(String deskPhoneNumber) {
 		this.deskPhoneNumber = deskPhoneNumber;
 	}
-	public String getDateOfBirth() {
+	
+	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	public String getUserName() {
@@ -80,6 +85,12 @@ public class MemberDetails implements Serializable{
 	}
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
+	}
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	

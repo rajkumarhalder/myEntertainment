@@ -12,11 +12,13 @@ public class EntertainmentConstant {
 
 	public static final String PAYMENT_STATUS_PENDING = "Due";
 
-	public static final String PAYMENT_TARGET_AMOUNT = "250.00";
+	public static final String PAYMENT_TARGET_AMOUNT = "250";
 
 	public static final String CURRENT_YEAR = "2018";
 
 	public static final String AUTHENTICATION_DONE = "Done";
+
+	public static final Integer ROLE_ID_USER = 2;
 	
 
 }

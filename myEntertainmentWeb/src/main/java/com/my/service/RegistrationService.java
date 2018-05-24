@@ -25,6 +25,12 @@ public interface RegistrationService {
 
 	void updatePayment(Payments payments, LoginInfo info);
 
+	void updateProfile(MemberDetails memberDetails, LoginInfo info);
+
+	List<Payments> getDuePayments(Long memberId);
+
+	
+
 	
 
 }

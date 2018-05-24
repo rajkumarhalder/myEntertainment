@@ -1,5 +1,6 @@
 package com.my.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService{
 			member=(MemberDetails) object;
 		
 		member.setMemberId(sequenceDao.getNextSequenceId("member_seq"));
+		member.setRoleId(EntertainmentConstant.ROLE_ID_USER);
 		
 		registrationRepository.save(member);
 		insertPayment(member.getMemberId());
@@ -87,12 +89,20 @@ public class RegistrationServiceImpl implements RegistrationService{
 		try {
 			listPayments=paymentRepository.getPaymentsByMember(memberId);
 			
-			for (Payments payments : listPayments) {
-				if(payments.getMonthId()>new Date().getMonth() && EntertainmentConstant.PAYMENT_STATUS_NA.equalsIgnoreCase(payments.getPaymentStatus())) {
-					payments.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_PENDING);
-				}
-				
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listPayments;
+	}
+	
+	
+	@Override
+	public List<Payments> getDuePayments(Long memberId) {
+		
+		List<Payments> listPayments=null;
+		try {
+			listPayments=paymentRepository.getPaymentsdues(memberId, EntertainmentConstant.PAYMENT_STATUS_PENDING);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,14 +119,24 @@ public class RegistrationServiceImpl implements RegistrationService{
 			if(null!=listMonth && ! listMonth.isEmpty()) {
 				
 				for (MonthMaster monthMaster : listMonth) {
+					
+					
 					Payments payments=new Payments();
+					
+					if(monthMaster.getMonthId()<=2)
+						payments.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_NA);
+					else if(monthMaster.getMonthId()>new Date().getMonth()+1)
+						payments.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_NA);
+					else
+						payments.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_PENDING);
 					payments.setMonthId(monthMaster.getMonthId());
-					payments.setAmount(EntertainmentConstant.PAYMENT_TARGET_AMOUNT);
+					payments.setAmount("--");
 					payments.setMemberId(memberId);
 					payments.setMonth(monthMaster.getMonth());
+					payments.setMonthId(monthMaster.getMonthId());
 					payments.setYear(EntertainmentConstant.CURRENT_YEAR);
 					payments.setPaymentDate("--");
-					payments.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_NA);
+					
 					payments.setPaymentId(sequenceDao.getNextSequenceId("payments"));
 					
 					paymentRepository.save(payments);
@@ -154,6 +174,9 @@ public class RegistrationServiceImpl implements RegistrationService{
 			Payments existingPaymen=list.get(0);
 			
 			existingPaymen.setAmount(payments.getAmount());
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+		    String strDate= formatter.format(new Date());  
+			existingPaymen.setPaymentDate(strDate);
 			if(payments.getAmount().equals(EntertainmentConstant.PAYMENT_TARGET_AMOUNT))
 				existingPaymen.setPaymentStatus(EntertainmentConstant.AUTHENTICATION_DONE);
 			
@@ -166,6 +189,28 @@ public class RegistrationServiceImpl implements RegistrationService{
 		}
 	}
 	
+	
+	@Override
+	public void updateProfile(MemberDetails memberDetails,LoginInfo info) {
+		
+		try {
+
+			MemberDetails existingMemberDetails =registrationRepository.findMemberByMemberId(memberDetails.getMemberId());
+
+
+			existingMemberDetails.setMobileNumber(memberDetails.getMobileNumber());
+			existingMemberDetails.setDeskPhoneNumber(memberDetails.getDeskPhoneNumber());
+			existingMemberDetails.setDateOfBirth(memberDetails.getDateOfBirth());
+			existingMemberDetails.setPassword(memberDetails.getPassword());
+
+			registrationRepository.save(existingMemberDetails);
+
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 

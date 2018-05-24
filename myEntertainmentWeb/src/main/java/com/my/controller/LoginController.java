@@ -60,6 +60,7 @@ public class LoginController {
 
 				userToken=new UserToken();
 				userToken.setAccessToken(token);
+				userToken.setRoleId(memberDetails.getRoleId());
 
 			}
 		} catch (Exception e) {
@@ -108,17 +109,39 @@ public class LoginController {
 	
 	
 	@RequestMapping("makepayment")	
-	public void getPayments(HttpServletRequest request,
+	public void makePayments(HttpServletRequest request,
 							   HttpServletResponse response,
 							   @RequestBody Payments payments) {
-		
+
 		String token=request.getHeader("Authorization");
 		LoginInfo loginInfo=TokenUtil.getTokendetail(token);
-	registrationService.updatePayment(payments, loginInfo);
+		registrationService.updatePayment(payments, loginInfo);
 
 	}
 
-	
-	
+	@RequestMapping("updateprofilebymeber")	
+	public void updateMyProfileByMember(HttpServletRequest request,
+							             HttpServletResponse response,
+							             @RequestBody MemberDetails memberDetails) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		registrationService.updateProfile(memberDetails, loginInfo);
 
+	}
+	
+	@RequestMapping("getDuesPayment")	
+	public Object getDuesPayments(HttpServletRequest request,
+							             HttpServletResponse response
+							             ) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		return registrationService.getDuePayments(loginInfo.getMemberId());
+
+	}
+	
+	
 }

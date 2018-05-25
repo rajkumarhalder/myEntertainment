@@ -13,7 +13,7 @@ public class TokenUtil {
 	public static String createToken(String memberCode,String firstName,Long memberId) {
 		String jwt=null;
 		Long currentMilis=new Date().getTime();
-		Long tokenExpireTime=currentMilis+600000;
+		Long tokenExpireTime=currentMilis+(1000*3600);
 		
 		jwt = Jwts.builder()
 				.setSubject("myEntertainment")

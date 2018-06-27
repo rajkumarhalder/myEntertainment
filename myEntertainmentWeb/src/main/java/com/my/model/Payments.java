@@ -1,5 +1,8 @@
 package com.my.model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,8 +14,8 @@ public class Payments {
 	private Long memberId;
 	private String Month;
 	private String year;
-	private String paymentDate;
-	private String amount;
+	private Date paymentDate;
+	private BigDecimal amount;
 	private String paymentStatus;
 	private Long monthId;
 	public Long getPaymentId() {
@@ -39,16 +42,17 @@ public class Payments {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public String getPaymentDate() {
+	
+	public Date getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(String paymentDate) {
+	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public String getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 	public String getPaymentStatus() {

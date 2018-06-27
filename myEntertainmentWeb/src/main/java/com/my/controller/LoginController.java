@@ -1,7 +1,6 @@
 package com.my.controller;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.my.dto.UserToken;
+import com.my.model.Expanditur;
 import com.my.model.LoginInfo;
 import com.my.model.MemberDetails;
 import com.my.model.Payments;
@@ -140,6 +140,55 @@ public class LoginController {
 		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
 		
 		return registrationService.getDuePayments(loginInfo.getMemberId());
+
+	}
+	
+	
+	@RequestMapping("getNotification")	
+	public Object getgetNotification(HttpServletRequest request,
+							             HttpServletResponse response
+							             ) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		return registrationService.getNotification();
+
+	}
+	
+	@RequestMapping("getFundBalance")	
+	public Object getFundBalance(HttpServletRequest request,
+							             HttpServletResponse response
+							             ) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		return registrationService.geCurrentFundBalance();
+
+	}
+	
+	
+	@RequestMapping("updateexpanditure")	
+	public void updateExpanditure(HttpServletRequest request,
+							   HttpServletResponse response,
+							   @RequestBody Expanditur expanditur) {
+
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(token);
+		registrationService.insertExpanditur(expanditur);
+
+	}
+	
+	@RequestMapping("getAllExpanditur")	
+	public Object getAllExpanditur(HttpServletRequest request,
+							             HttpServletResponse response
+							             ) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		return registrationService.getExpanditure();
 
 	}
 	

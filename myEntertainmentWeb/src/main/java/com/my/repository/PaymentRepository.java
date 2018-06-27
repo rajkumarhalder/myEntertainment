@@ -18,7 +18,7 @@ public interface PaymentRepository extends MongoRepository<Payments, Long>{
 	@Query("{ 'memberId' : ?0 ,'monthId' : ?1}")
 	public List getPaymentsByMemberandMonth(Long memberId,Long monthId);
 	
-	@Query("{ 'memberId' : ?0 ,'paymentStatus' :?1}")
-	public List getPaymentsdues(Long memberId,String paymentStatus);
+	@Query("{ 'memberId' : ?0 ,'monthId' :?1}")
+	public List getPaymentsdues(Long memberId,Long monthId);
 
 }

@@ -1,14 +1,17 @@
 package com.my.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import com.my.model.Expanditur;
 import com.my.model.LoginInfo;
 import com.my.model.MemberDetails;
 import com.my.model.MonthMaster;
+import com.my.model.Notification;
 import com.my.model.Payments;
 
 public interface RegistrationService {
-	
+
 	public Object memberRegistration(Object object);
 
 	public Object getAll();
@@ -29,8 +32,15 @@ public interface RegistrationService {
 
 	List<Payments> getDuePayments(Long memberId);
 
-	
+	List<Notification> getNotification();
 
-	
+	BigDecimal geCurrentFundBalance();
+
+	List<Expanditur> getExpanditure();
+
+	BigDecimal geTotalEarning();
+
+	void insertExpanditur(Expanditur expanditur);
+
 
 }

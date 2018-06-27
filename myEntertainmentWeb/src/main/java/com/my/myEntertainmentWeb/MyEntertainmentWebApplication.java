@@ -18,6 +18,7 @@ public class MyEntertainmentWebApplication extends SpringBootServletInitializer{
 	public static void main(String[] args) {
 	
 		SpringApplication.run(MyEntertainmentWebApplication.class, args);
+		
 	}
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {

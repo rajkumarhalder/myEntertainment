@@ -3,8 +3,10 @@ package com.my.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.my.util.EntertainmentConstant;
@@ -29,6 +31,10 @@ public class MemberDetails implements Serializable{
 	private Date dateOfBirth;
 	private String userName;
 	private String passWord;
+	
+	@Transient
+	private List<Payments> payments;
+	
 	public Long getMemberId() {
 		return memberId;
 	}
@@ -88,6 +94,12 @@ public class MemberDetails implements Serializable{
 	}
 	public Integer getRoleId() {
 		return roleId;
+	}
+	public List<Payments> getPayments() {
+		return payments;
+	}
+	public void setPayments(List<Payments> payments) {
+		this.payments = payments;
 	}
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;

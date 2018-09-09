@@ -12,7 +12,7 @@ import com.my.model.Payments;
 
 public interface RegistrationService {
 
-	public Object memberRegistration(Object object);
+	public Object memberRegistration(MemberDetails member);
 
 	public Object getAll();
 
@@ -41,6 +41,10 @@ public interface RegistrationService {
 	BigDecimal geTotalEarning();
 
 	void insertExpanditur(Expanditur expanditur);
+
+	MemberDetails getMemberByUserCode(String userCode);
+
+	void sendMail(String allUserMailFlag, Long targetUserId);
 
 
 }

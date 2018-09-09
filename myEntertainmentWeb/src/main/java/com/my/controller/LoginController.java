@@ -29,8 +29,17 @@ public class LoginController {
 	private RegistrationService registrationService;
 
 	@RequestMapping("registration")	
-	public Object doRegistration(@RequestBody MemberDetails memberDetails) {
-		return registrationService.memberRegistration(memberDetails);
+	public void doRegistration(HttpServletRequest request,
+                               HttpServletResponse respone,
+                               @RequestBody MemberDetails memberDetails) {
+		boolean result=(boolean) registrationService.memberRegistration(memberDetails);
+		
+		if(!result)
+			try {
+				respone.sendError(9999, "User Already Exist");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 	}
 	@RequestMapping("getall")	
@@ -56,7 +65,7 @@ public class LoginController {
 				}
 			}
 			else {
-				String token=TokenUtil.createToken(memberDetails.getUserName(),memberDetails.getName(),memberDetails.getMemberId());
+				String token=TokenUtil.createToken(memberDetails.getUsername(),memberDetails.getName(),memberDetails.getMemberId());
 
 				userToken=new UserToken();
 				userToken.setAccessToken(token);
@@ -189,6 +198,18 @@ public class LoginController {
 		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
 		
 		return registrationService.getExpanditure();
+
+	}
+	
+	
+	@RequestMapping("sendmanualmail")	
+	public void sendManualMail(HttpServletRequest request,
+							     HttpServletResponse response) {
+		
+		String token=request.getHeader("Authorization");
+		LoginInfo loginInfo=TokenUtil.getTokendetail(request.getHeader("Authorization"));
+		
+		registrationService.sendMail("N", loginInfo.getMemberId());
 
 	}
 	

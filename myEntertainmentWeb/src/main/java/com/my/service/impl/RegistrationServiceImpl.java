@@ -6,22 +6,27 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.my.dao.SequenceDao;
+import com.my.dto.EntertainmentMailObject;
 import com.my.model.Expanditur;
 import com.my.model.LoginInfo;
+import com.my.model.MailNotification;
 import com.my.model.MemberDetails;
 import com.my.model.MonthMaster;
 import com.my.model.Notification;
 import com.my.model.Payments;
 import com.my.repository.ExpanditurRepository;
+import com.my.repository.MailNotificationRepository;
 import com.my.repository.MonthMasterRepository;
 import com.my.repository.NotificationRepository;
 import com.my.repository.PaymentRepository;
 import com.my.repository.RegistrationRepository;
 import com.my.service.RegistrationService;
 import com.my.util.EntertainmentConstant;
+import com.my.util.MyEntertainmentMailSender;
 
 
 @Service
@@ -44,20 +49,36 @@ public class RegistrationServiceImpl implements RegistrationService{
 	
 	@Autowired
 	SequenceDao sequenceDao;
+	
+	@Autowired
+	MailNotificationRepository mailNotificationRepository;
+	
+	@Autowired
+    private JavaMailSender sender;
+	
 
 	@Override
-	public Object memberRegistration(Object object) {
-		MemberDetails member=null;
-		if(object instanceof MemberDetails)
-			member=(MemberDetails) object;
+	public Object memberRegistration(MemberDetails member) {
 		
-		member.setMemberId(sequenceDao.getNextSequenceId("member_seq"));
-		member.setRoleId(EntertainmentConstant.ROLE_ID_USER);
-		
-		registrationRepository.save(member);
-		insertPayment(member.getMemberId());
-		
-		return "success";
+		if(null!=member && null!=member.getName() && null!=member.getUsername()) {
+			
+			MemberDetails existingMember=getMemberByUserCode(member.getUsername());
+			if(null==existingMember) {
+				member.setMemberId(sequenceDao.getNextSequenceId("member_seq"));
+				member.setRoleId(EntertainmentConstant.ROLE_ID_USER);
+				member.setPassword(EntertainmentConstant.DEFAULT_PASSWPRD);
+
+				registrationRepository.save(member);
+				insertPayment(member.getMemberId());
+			}
+			else {
+				return false;
+			}
+			
+		}
+		else
+			return false;
+		return true;
 	}
 	
 	@Override
@@ -97,6 +118,18 @@ public class RegistrationServiceImpl implements RegistrationService{
 	}
 	
 	@Override
+	public MemberDetails getMemberByUserCode(String userCode) {
+		
+		MemberDetails memberDetails=null;
+		try {
+			memberDetails=registrationRepository.findMemberByUserCode(userCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memberDetails;
+	}
+	
+	@Override
 	public List<Payments> getPaymentsByMemberId(Long memberId) {
 		
 		List<Payments> listPayments=null;
@@ -107,6 +140,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 			listPayments=paymentRepository.getPaymentsByMember(memberId);
 			
 			for (Payments payments : listPayments) {
+				
+				payments.setDueAmount(EntertainmentConstant.PAYMENT_TARGET_AMOUNT.subtract(payments.getAmount()));
 				if(payments.getMonthId()<=currentMonthId)
 					listPaymentsFinal.add(payments);
 			}
@@ -195,7 +230,11 @@ public class RegistrationServiceImpl implements RegistrationService{
 
 				existingPaymen.setAmount(payments.getAmount());
 				existingPaymen.setPaymentDate(new Date());
-				existingPaymen.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_PAID);
+				
+				if(EntertainmentConstant.PAYMENT_TARGET_AMOUNT.compareTo(payments.getAmount())==0)
+				  existingPaymen.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_PAID);
+				else
+				 existingPaymen.setPaymentStatus(EntertainmentConstant.PAYMENT_STATUS_DUE);
 
 				paymentRepository.save(existingPaymen);
 			}
@@ -216,6 +255,7 @@ public class RegistrationServiceImpl implements RegistrationService{
 
 
 			existingMemberDetails.setMobileNumber(memberDetails.getMobileNumber());
+			existingMemberDetails.setEmailId(memberDetails.getEmailId());
 			existingMemberDetails.setDeskPhoneNumber(memberDetails.getDeskPhoneNumber());
 			existingMemberDetails.setDateOfBirth(memberDetails.getDateOfBirth());
 			existingMemberDetails.setPassword(memberDetails.getPassword());
@@ -257,8 +297,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 					totalExpanditure=totalExpanditure.add(expanditur.getAmount());
 				}
 			}
-			
-			totalAmount=geTotalEarning().subtract(totalExpanditure);
+			BigDecimal totalEarning=geTotalEarning();
+			totalAmount=totalEarning.subtract(totalExpanditure);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,6 +353,45 @@ public class RegistrationServiceImpl implements RegistrationService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	@Override
+	public void sendMail(String allUserMailFlag, Long targetUserId) {
+		
+		List<MemberDetails> memberDetails=null;
+		try {
+			
+			if("Y".equals(allUserMailFlag)) 
+				memberDetails=(List<MemberDetails>) getAll();
+			
+			else
+			{
+				 memberDetails=new ArrayList<>();
+				 MemberDetails memberDtl=getMemberByMemberId(targetUserId);
+				 memberDetails.add(memberDtl);
+			}
+			
+			Object obj=mailNotificationRepository.findByMailNotificationId(EntertainmentConstant.MAIL_ID_PAYMENT_DUE);
+			
+			MailNotification mailNotification=(MailNotification) obj;
+			
+			
+			
+			EntertainmentMailObject mailObject=new EntertainmentMailObject();
+			mailObject.setMemberDetails(memberDetails);
+			mailObject.setMailBody(mailNotification.getMailBody());
+			mailObject.setMailSubject(mailNotification.getMailSubject());
+			
+			MyEntertainmentMailSender mailSender=new MyEntertainmentMailSender(sender, mailObject);
+			
+			Thread t1 =new Thread(mailSender);  
+			t1.start(); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

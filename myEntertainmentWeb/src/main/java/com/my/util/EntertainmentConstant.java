@@ -25,6 +25,11 @@ public class EntertainmentConstant {
 	public static final Double TOTAL_EXPANDITURE = -9755.00;
 
 	public static final String NA = "--";
+	public static final String DEFAULT_PASSWPRD = "Pass@123";
+	
+	public static final Long MAIL_ID_PAYMENT_DUE= 1000L;
+	
+	public static final String MAIL_SUBJECTp = "Pass@123";
 	
 
 }

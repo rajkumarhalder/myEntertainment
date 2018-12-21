@@ -1,54 +1,44 @@
 package com.my.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="notification",schema="entmt")
-public class Notification {
-
+@Table(name="payment_master",schema="entmt")
+public class PaymentMaster {
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENTS_SEQ")
-    @SequenceGenerator(sequenceName = "entmt.notification_seq", allocationSize = 1, name = "NOTIFICATION_SEQ")
-	private Long Id;
-	private String notificationMsg;
-	private Long notificationFrom;
-	private Long notificationTo;
+	private Long id;
+	private Long monthId;
+	private Integer year;
+	private BigDecimal amount;
 	private Integer isActive;
 	private Long createId;
 	private Date createDate;
 	private Long updateId;
 	private Date updateDate;
 	public Long getId() {
-		return Id;
+		return id;
 	}
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
-	public String getNotificationMsg() {
-		return notificationMsg;
+	public Long getMonthId() {
+		return monthId;
 	}
-	public void setNotificationMsg(String notificationMsg) {
-		this.notificationMsg = notificationMsg;
+	public void setMonthId(Long monthId) {
+		this.monthId = monthId;
 	}
-	public Long getNotificationFrom() {
-		return notificationFrom;
+
+	public Integer getYear() {
+		return year;
 	}
-	public void setNotificationFrom(Long notificationFrom) {
-		this.notificationFrom = notificationFrom;
-	}
-	public Long getNotificationTo() {
-		return notificationTo;
-	}
-	public void setNotificationTo(Long notificationTo) {
-		this.notificationTo = notificationTo;
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 	public Integer getIsActive() {
 		return isActive;
@@ -80,6 +70,12 @@ public class Notification {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+	
 	
 }

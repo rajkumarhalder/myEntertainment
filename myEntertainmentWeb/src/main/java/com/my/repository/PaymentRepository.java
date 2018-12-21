@@ -2,23 +2,22 @@ package com.my.repository;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.my.model.MemberDetails;
 import com.my.model.Payments;
 
 @Repository
-public interface PaymentRepository extends MongoRepository<Payments, Long>{
+public interface PaymentRepository extends CrudRepository<Payments, Long>{
+
+	public List findByUserIdAndIsActive(Long memberId,int isActive);
+
+	public List findByUserIdInAndIsActive(List<Long> memberIds,int isActive);
 	
-	@Query("{ 'memberId' : ?0}")
-	public List getPaymentsByMember(Long memberId);
-	
-	@Query("{ 'memberId' : ?0 ,'monthId' : ?1}")
-	public List getPaymentsByMemberandMonth(Long memberId,Long monthId);
-	
-	@Query("{ 'memberId' : ?0 ,'monthId' :?1}")
-	public List getPaymentsdues(Long memberId,Long monthId);
+	public List findByUserIdInAndPaymentStatusInAndYearAndIsActive(List<Long> memberIds,List<Integer> paymentStatus,int year,int isActive);
+
+	public List findByUserIdAndMonthIdAndYearAndIsActive(Long memberId,Long monthId,int year,int isActive);
+
+	public List findByIsActive(int isActive);
 
 }

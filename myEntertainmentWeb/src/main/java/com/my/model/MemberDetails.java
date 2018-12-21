@@ -5,13 +5,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.my.util.EntertainmentConstant;
 
-@Document(collection="member")
+
+@Entity
+@Table(name="userdetails",schema="entmt")
 public class MemberDetails implements Serializable{
 
 	/**
@@ -21,25 +26,35 @@ public class MemberDetails implements Serializable{
 	
 	
 	@Id
-	private Long memberId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERDETAILS_SEQ")
+    @SequenceGenerator(sequenceName = "entmt.userdetails_seq", allocationSize = 1, name = "USERDETAILS_SEQ")
+	private Long id;
 	private Integer roleId;
 	private String name;
 	private String password;
 	private String emailId;
+	private String personalEmail;
 	private String mobileNumber;
+	private String personalMobileNumber;
 	private String deskPhoneNumber;
 	private Date dateOfBirth;
 	private String username;
+	private Integer userStatus;
+	private int isActive;
+	private long createId;
+	private Date createDate;
+	private long updateId;
+	private Date updateDate;
 	
 	@Transient
 	private List<Payments> payments;
 
-	public Long getMemberId() {
-		return memberId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setMemberId(Long memberId) {
-		this.memberId = memberId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Integer getRoleId() {
@@ -106,6 +121,46 @@ public class MemberDetails implements Serializable{
 		this.username = username;
 	}
 
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
+
+	public long getCreateId() {
+		return createId;
+	}
+
+	public void setCreateId(long createId) {
+		this.createId = createId;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public long getUpdateId() {
+		return updateId;
+	}
+
+	public void setUpdateId(long updateId) {
+		this.updateId = updateId;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	public List<Payments> getPayments() {
 		return payments;
 	}
@@ -113,8 +168,30 @@ public class MemberDetails implements Serializable{
 	public void setPayments(List<Payments> payments) {
 		this.payments = payments;
 	}
-	
-	
 
-	
+	public Integer getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(Integer userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public String getPersonalEmail() {
+		return personalEmail;
+	}
+
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
+	}
+
+	public String getPersonalMobileNumber() {
+		return personalMobileNumber;
+	}
+
+	public void setPersonalMobileNumber(String personalMobileNumber) {
+		this.personalMobileNumber = personalMobileNumber;
+	}
+
+
 }

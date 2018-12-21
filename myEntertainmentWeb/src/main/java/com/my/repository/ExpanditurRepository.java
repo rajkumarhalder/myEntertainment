@@ -1,9 +1,17 @@
 package com.my.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.List;
 
-import com.my.model.Expanditur;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ExpanditurRepository extends MongoRepository<Expanditur, Long>{
+import com.my.model.Expenditure;
+
+public interface ExpanditurRepository extends CrudRepository<Expenditure, Long>{
+
+	public List findByMonthIdAndYearAndIsActive(Long monthId,Long year,int isActive);
+
+	public List findByYearAndIsActive(Long year,int isActive);
+
+	public List findByIsActive(int isActive);
 
 }

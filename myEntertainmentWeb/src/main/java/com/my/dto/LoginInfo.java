@@ -1,4 +1,4 @@
-package com.my.model;
+package com.my.dto;
 
 public class LoginInfo {
 	

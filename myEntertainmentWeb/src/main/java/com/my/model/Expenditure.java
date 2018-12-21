@@ -1,5 +1,6 @@
 package com.my.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,19 +13,24 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="payments",schema="entmt")
-public class Payments {
+@Table(name="expenditure",schema="entmt")
+public class Expenditure implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5756919696314852534L;
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENTS_SEQ")
-    @SequenceGenerator(sequenceName = "entmt.payments_seq", allocationSize = 1, name = "PAYMENTS_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EXPENDITURE_SEQ")
+    @SequenceGenerator(sequenceName = "entmt.expenditure_seq", allocationSize = 1, name = "EXPENDITURE_SEQ")
 	private Long id;
-	private Long userId;
-	private Integer year;
 	private Long monthId;
+	private Long year;
 	private BigDecimal amount;
-	private Long paymentDate;
-	private Integer paymentStatus;
+	private Long expanditurDate;
+	private String purpose;
+	private String shortDesc;
 	private Integer isActive;
 	private Long createId;
 	private Date createDate;
@@ -36,23 +42,17 @@ public class Payments {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public Integer getYear() {
-		return year;
-	}
-	public void setYear(Integer year) {
-		this.year = year;
-	}
 	public Long getMonthId() {
 		return monthId;
 	}
 	public void setMonthId(Long monthId) {
 		this.monthId = monthId;
+	}
+	public Long getYear() {
+		return year;
+	}
+	public void setYear(Long year) {
+		this.year = year;
 	}
 	public BigDecimal getAmount() {
 		return amount;
@@ -60,17 +60,23 @@ public class Payments {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Long getPaymentDate() {
-		return paymentDate;
+	public Long getExpanditurDate() {
+		return expanditurDate;
 	}
-	public void setPaymentDate(Long paymentDate) {
-		this.paymentDate = paymentDate;
+	public void setExpanditurDate(Long expanditurDate) {
+		this.expanditurDate = expanditurDate;
 	}
-	public Integer getPaymentStatus() {
-		return paymentStatus;
+	public String getPurpose() {
+		return purpose;
 	}
-	public void setPaymentStatus(Integer paymentStatus) {
-		this.paymentStatus = paymentStatus;
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+	public String getShortDesc() {
+		return shortDesc;
+	}
+	public void setShortDesc(String shortDesc) {
+		this.shortDesc = shortDesc;
 	}
 	public Integer getIsActive() {
 		return isActive;
@@ -103,6 +109,5 @@ public class Payments {
 		this.updateDate = updateDate;
 	}
 	
-
 	
 }

@@ -1,14 +1,21 @@
 package com.my.util;
 
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
-import com.my.model.LoginInfo;
+import com.my.dto.LoginInfo;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class TokenUtil {
+	
+	private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
+    private static final byte[] secretBytes = secret.getEncoded();
+    private static final String base64SecretBytes = Base64.getEncoder().encodeToString(secretBytes);
 	
 	public static String createToken(String memberCode,String firstName,Long memberId) {
 		String jwt=null;
@@ -21,7 +28,7 @@ public class TokenUtil {
 				.claim("memberCode", memberCode)
 				.claim("firstName", firstName)
 				.claim("memberId", memberId)
-				.signWith(SignatureAlgorithm.HS256,"secret").compact();
+				.signWith(SignatureAlgorithm.HS256,base64SecretBytes).compact();
 
 
 		return jwt;
@@ -35,7 +42,7 @@ public class TokenUtil {
 		try {
 			
 			Claims claims = Jwts.parser()
-                    .setSigningKey("secret")
+                    .setSigningKey(base64SecretBytes)
                     .parseClaimsJws(jwtToken)
                     .getBody();
 			loginInfo=new LoginInfo();
@@ -43,7 +50,7 @@ public class TokenUtil {
 			loginInfo.setMemberId(Long.valueOf(String.valueOf( claims.get("memberId"))));
 		
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
 		return loginInfo;
 		

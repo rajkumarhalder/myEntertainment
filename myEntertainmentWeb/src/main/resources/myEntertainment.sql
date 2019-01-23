@@ -1,7 +1,4 @@
-﻿INSERT INTO entmt.userdetails(id, create_date, create_id,is_active, name, password, role_id, update_date, update_id, user_status, 
-            username)
-    VALUES (nextval('entmt.userdetails_seq'), now(), 0, 1, 'Rajkumar Halder', 
-            'Pass@123', 1, now(), 0, 100, 'rajkumar.halder');
+
 			
 CREATE TABLE entmt.expenditure
 (
@@ -112,6 +109,9 @@ CREATE TABLE entmt.userdetails
 );
 
 
-
+﻿INSERT INTO entmt.userdetails(id, create_date, create_id,is_active, name, password, role_id, update_date, update_id, user_status, 
+            username)
+    VALUES (nextval('entmt.userdetails_seq'), now(), 0, 1, 'Rajkumar Halder', 
+            'Pass@123', 1, now(), 0, 100, 'rajkumar.halder');
 
 			

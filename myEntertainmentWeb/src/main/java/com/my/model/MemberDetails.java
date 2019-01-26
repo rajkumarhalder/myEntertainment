@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +32,7 @@ public class MemberDetails implements Serializable{
 	private Long id;
 	private Integer roleId;
 	private String name;
+	@Column(name="login_pass")
 	private String password;
 	private String emailId;
 	private String personalEmail;

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="expenditure",schema="entmt")
+@Table(name="expenditure")
 public class Expenditure implements Serializable{
 
 	/**

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="mail_notification",schema="entmt")
+@Table(name="mail_notification")
 public class MailNotification implements Serializable{
 	
 	/**

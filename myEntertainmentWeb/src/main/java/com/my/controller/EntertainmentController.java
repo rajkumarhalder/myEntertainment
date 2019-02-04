@@ -35,13 +35,13 @@ public class EntertainmentController {
 	private EntertainmentService entertainmentService;
 
 	@RequestMapping("healthCheck")	
-	public ModelAndView doHealthCheck(HttpServletRequest request,
+	public String doHealthCheck(HttpServletRequest request,
 			                        HttpServletResponse respone) {
 
 		LoginInfo info=(LoginInfo) request.getAttribute(EntertainmentConstant.LOGGEDIN_USER_DETAILS);
 		ResponeDto responeDto=new ResponeDto();
 		try {
-			return new ModelAndView("home");
+			return "Entertainment Running...";
 		} catch (Exception exp) {
 			EntertainmentUtil.handleException(responeDto,exp, info);
 			return null;

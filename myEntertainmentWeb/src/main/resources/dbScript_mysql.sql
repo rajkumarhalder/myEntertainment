@@ -108,6 +108,7 @@ CREATE TABLE userdetails
   CONSTRAINT userdetails_pkey PRIMARY KEY (id)
 );
 ALTER TABLE `userdetails` CHANGE `id` `id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+alter TABLE userdetails ADD COLUMN workstation_id VARCHAR(255);
 
 
 INSERT INTO userdetails(create_date, create_id,is_active, name, login_pass, role_id, update_date, update_id, user_status, 

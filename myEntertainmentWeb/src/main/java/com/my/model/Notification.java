@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="notification",schema="entmt")
+@Table(name="notification")
 public class Notification {
 
 	@Id

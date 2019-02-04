@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="month_master",schema="entmt")
+@Table(name="month_master")
 public class MonthMaster {
 	
 	@Id

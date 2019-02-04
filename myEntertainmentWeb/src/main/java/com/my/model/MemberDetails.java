@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 
 
 @Entity
-@Table(name="userdetails",schema="entmt")
+@Table(name="userdetails")
 public class MemberDetails implements Serializable{
 
 	/**
@@ -31,16 +31,21 @@ public class MemberDetails implements Serializable{
     @SequenceGenerator(sequenceName = "entmt.userdetails_seq", allocationSize = 1, name = "USERDETAILS_SEQ")
 	private Long id;
 	private Integer roleId;
+	private String username;
 	private String name;
-	@Column(name="login_pass")
-	private String password;
 	private String emailId;
 	private String personalEmail;
 	private String mobileNumber;
-	private String personalMobileNumber;
 	private String deskPhoneNumber;
 	private Date dateOfBirth;
-	private String username;
+	
+	@Column(name="workstation_id")
+	private String workStationId;
+	
+	@Column(name="login_pass")
+	private String password;
+	
+	private String personalMobileNumber;
 	private Integer userStatus;
 	private int isActive;
 	private long createId;
@@ -193,6 +198,14 @@ public class MemberDetails implements Serializable{
 
 	public void setPersonalMobileNumber(String personalMobileNumber) {
 		this.personalMobileNumber = personalMobileNumber;
+	}
+
+	public String getWorkStationId() {
+		return workStationId;
+	}
+
+	public void setWorkStationId(String workStationId) {
+		this.workStationId = workStationId;
 	}
 
 

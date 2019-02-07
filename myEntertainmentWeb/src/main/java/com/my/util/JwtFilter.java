@@ -36,7 +36,7 @@ public class JwtFilter implements Filter{
 			String requestURL=request.getRequestURI();
 			requestURL=requestURL.replace(request.getContextPath(), "");
 
-			if(requestURL.endsWith(EntertainmentConstant.SERVICE_HOME_PAGE) || requestURL.endsWith(EntertainmentConstant.LOGIN_URL)) {
+			if(requestURL.endsWith(EntertainmentConstant.SERVICE_HOME_PAGE) || requestURL.endsWith(EntertainmentConstant.LOGIN_URL) || requestURL.endsWith(EntertainmentConstant.REGISTRATION_URL)) {
 				LoginInfo loginInfo=new LoginInfo();
 				loginInfo.setFirstName(EntertainmentConstant.NOT_LOGGEDIN_USER_FIRST_NAME);
 				loginInfo.setMemberId(EntertainmentConstant.NOT_LOGGEDIN_USER_ID);
